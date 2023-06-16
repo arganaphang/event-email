@@ -1,0 +1,25 @@
+version: '3'
+tasks:
+  run:sender:
+    cmds:
+      - go run ./sender/cmd/main.go
+    silent: true
+  run:payment:
+    cmds:
+      - go run ./payment/cmd/main.go
+    silent: true
+  run:
+    cmds:
+      - task: run:sender
+      - task: run:payment
+    silent: true
+  test:unit:
+    cmds:
+      - echo 'unimplemented'
+    silent: true
+  test:stress:
+    cmds:
+      - 'hey -n 10000 -c 50 -m POST http://localhost:8000/pay'
+  test:
+    cmds:
+      - task: test:unit
